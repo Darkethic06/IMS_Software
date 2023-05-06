@@ -56,8 +56,8 @@ let selectLeatherBtn = document.getElementById("selectLeatherBtn")
 selectLeatherBtn.addEventListener('click', function () {
   let final_leatherqty = document.getElementById("final_leather").value
   document.getElementById("leather_qty").value = final_leatherqty
-  let rate = document.getElementById('rate').value
-  document.getElementById('amount').value = final_leatherqty * rate
+  let rate = document.getElementById('leather_rate').value
+  document.getElementById('leather_amount').value = final_leatherqty * rate
 })
 
 

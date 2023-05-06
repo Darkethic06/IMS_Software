@@ -99,8 +99,28 @@ include('config/config.php');
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectLeatherModal"> + Add Leather</button>
 
         <table class="table table-bordered m-3" id="leatherTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Leather Code</th>
+                    <th>Leather Name</th>
+                    <th>HSN Code</th>
+                    <th>QTY</th>
+                    <th>UOM</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tr>
+                <td><input type='text' class='form-control' placeholder='Leather No' id="leather_no"></td>
+                <td><input type='text' class='form-control' placeholder='Leather Name' id="leather_name"></td>
+                <td><input type='text' class='form-control' placeholder="HSN Code" id='leather_hsn'></td>
+                <td><input type='text' class='form-control' id='leather_qty' placeholder='QTY' data-bs-toggle='modal' data-bs-target='#selectLeatherCalc'></td>
+                <td><input type='text' class='form-control' placeholder="UOM" id="leather_uom"></td>
+                <td><input type='text' class='form-control' placeholder="Rate" id='leather_rate'></td>
+                <td><input type='text' class='form-control' placeholder='Amount' id='leather_amount'></td>
+            </tr>
         </table>
-        <div style="overflow-y: scroll; height:300px;">
+        <div style="overflow-y: scroll; height:300px;" class="">
             <table class="table table-bordered my-5" id="leatherTable" width="100%" cellspacing="0">
                 <?php for ($i = 1; $i <= 20; $i++) : ?>
                     <tr>
@@ -118,49 +138,66 @@ include('config/config.php');
 
         <table class="table table-bordered my-5" width="100%" cellspacing="0">
             <tr>
-                <td><label class="form-label">Prime Cost</label></td>
+                <td>Prime Cost</td>
+                <td colspan="3"></td>
                 <td><input type="text" class="form-control" id="prime_cost"></td>
-                <td><label class="form-label">Packaging Charges(in %)</label></td>
+            </tr>
+            <tr>
+                <td>Labour Charges</td>
+                <td colspan="3"></td>
+                <td><input type="text" class="form-control" id="labour_charges"></td>
+            </tr>
+            <tr>
+                <td>Gross Cost</td>
+                <td colspan="3"></td>
+                <td><input type="text" class="form-control" id="gross_cost"></td>
+            </tr>
+            <tr>
+                <td>Packaging Charges(in %)</td>
                 <td><input type="text" class="form-control" id="pack_percentage"></td>
-                <td><label class="form-label">(in Value)</label></td>
+                <td colspan="2">in Value</td>
                 <td><input type="text" class="form-control" id="pack_value"></td>
             </tr>
             <tr>
-                <td><label class="form-label">Labour Charges</label></td>
-                <td><input type="text" class="form-control" id="labour_charges"></td>
-                <td><label class="form-label">Overhead Cost(in %)</label></td>
+                <td>Overhead Cost(in %)</td>
                 <td><input type="text" class="form-control" id="overhead_percentage"></td>
-                <td><label class="form-label">(in Value)</label></td>
+                <td colspan="2">in Value</td>
                 <td><input type="text" class="form-control" id="overhead_value"></td>
             </tr>
             <tr>
-                <td><label class="form-label">Gross Cost</label></td>
-                <td><input type="text" class="form-control" id="gross_cost"></td>
-                <td><label class="form-label">Handling Charges(in %)</label></td>
+                <td>Handling Charges(in %)</label></td>
                 <td><input type="text" class="form-control" id="handling_percentage"></td>
-                <td><label class="form-label">(in Value)</label></td>
+                <td colspan="2">in Value</td>
                 <td><input type="text" class="form-control" id="handling_value"></td>
             </tr>
             <tr>
-                <td><label class="form-label">Insurance Charges</label></td>
+                <td>Insurance Charges(in %)</td>
                 <td><input type="text" class="form-control"></td>
-                <td><label class="form-label">Bank & Misc. Charges(in %)</label></td>
-                <td><input type="text" class="form-control"></td>
-                <td><label class="form-label">(in Value)</label></td>
+                <td colspan="2">in Value</td>
                 <td><input type="text" class="form-control"></td>
             </tr>
             <tr>
-                <td><label class="form-label">Add Profit</label></td>
+                <td>Bank & Misc. Charges(in %)</td>
                 <td><input type="text" class="form-control"></td>
-                <td><label class="form-label">Freight Amount(in %)</label></td>
-                <td><input type="text" class="form-control"></td>
-                <td><label class="form-label">(in Value)</label></td>
+                <td colspan="2">in Value</td>
                 <td><input type="text" class="form-control"></td>
             </tr>
             <tr>
-                <td colspan="2"></td>
-                <td><strong><label class="form-label">Net Cost</label></strong></td>
-                <td colspan="3"><input type="text" class="form-control"></td>
+                <td>Freight Amount(in %)</td>
+                <td><input type="text" class="form-control"></td>
+                <td colspan="2">in Value</td>
+                <td><input type="text" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>Add Profit(in %)</td>
+                <td><input type="text" class="form-control"></td>
+                <td colspan="2">in Value</td>
+                <td><input type="text" class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Net Cost</strong></td>
+                <td><strong>Total</strong></td>
+                <td colspan="2"><input type="text" class="form-control"></td>
             </tr>
         </table>
         <button type="button" class="btn btn-primary">Save Costing</button>
