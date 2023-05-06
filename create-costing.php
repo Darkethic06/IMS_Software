@@ -101,29 +101,29 @@ include('config/config.php');
         <table class="table table-bordered m-3" id="leatherTable" width="100%" cellspacing="0">
         </table>
         <div style="overflow-y: scroll; height:300px;">
-            <table class="table table-bordered m-3" id="leatherTable" width="100%" cellspacing="0">
+            <table class="table table-bordered my-5" id="leatherTable" width="100%" cellspacing="0">
                 <?php for ($i = 1; $i <= 20; $i++) : ?>
                     <tr>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
-                        <td><input type='text' class='form-control'></td>
+                        <td><input type='text' class='form-control' placeholder="Item No"></td>
+                        <td><input type='text' class='form-control' placeholder="Item Name"></td>
+                        <td><input type='text' class='form-control' placeholder=""></td>
+                        <td><input type='text' class='form-control' placeholder=""></td>
+                        <td><input type='text' class='form-control' placeholder=""></td>
+                        <td><input type='text' class='form-control' placeholder=""></td>
+                        <td><input type='text' class='form-control' placeholder=""></td>
                     </tr>
                 <?php endfor; ?>
             </table>
         </div>
 
-        <table class="table table-bordered my-3" width="100%" cellspacing="0">
+        <table class="table table-bordered my-5" width="100%" cellspacing="0">
             <tr>
                 <td><label class="form-label">Prime Cost</label></td>
                 <td><input type="text" class="form-control" id="prime_cost"></td>
                 <td><label class="form-label">Packaging Charges(in %)</label></td>
-                <td><input type="text" class="form-control" id="prime_cost_percentage"></td>
+                <td><input type="text" class="form-control" id="pack_percentage"></td>
                 <td><label class="form-label">(in Value)</label></td>
-                <td><input type="text" class="form-control" id="prime_cost_value"></td>
+                <td><input type="text" class="form-control" id="pack_value"></td>
             </tr>
             <tr>
                 <td><label class="form-label">Labour Charges</label></td>
@@ -131,7 +131,7 @@ include('config/config.php');
                 <td><label class="form-label">Overhead Cost(in %)</label></td>
                 <td><input type="text" class="form-control" id="overhead_percentage"></td>
                 <td><label class="form-label">(in Value)</label></td>
-                <td><input type="text" class="form-control" id="overhead_in_value"></td>
+                <td><input type="text" class="form-control" id="overhead_value"></td>
             </tr>
             <tr>
                 <td><label class="form-label">Gross Cost</label></td>
@@ -146,12 +146,19 @@ include('config/config.php');
                 <td><input type="text" class="form-control"></td>
                 <td><label class="form-label">Bank & Misc. Charges(in %)</label></td>
                 <td><input type="text" class="form-control"></td>
-                <td><label class="form-label">Freight</label></td>
+                <td><label class="form-label">(in Value)</label></td>
                 <td><input type="text" class="form-control"></td>
             </tr>
             <tr>
                 <td><label class="form-label">Add Profit</label></td>
                 <td><input type="text" class="form-control"></td>
+                <td><label class="form-label">Freight Amount(in %)</label></td>
+                <td><input type="text" class="form-control"></td>
+                <td><label class="form-label">(in Value)</label></td>
+                <td><input type="text" class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
                 <td><strong><label class="form-label">Net Cost</label></strong></td>
                 <td colspan="3"><input type="text" class="form-control"></td>
             </tr>

@@ -60,6 +60,53 @@ selectLeatherBtn.addEventListener('click', function () {
   document.getElementById('amount').value = final_leatherqty * rate
 })
 
+
+// Calculate gross Cost
+
 function clacGrossCost(){
-  let prime_cost = document.getElementById("prime_cost")
+  let prime_cost = parseInt(document.getElementById("prime_cost").value) 
+  let labour_charges = parseInt(document.getElementById("labour_charges").value)
+
+  gross_cost.value = prime_cost + labour_charges
+
+
 }
+let gross_cost = document.getElementById("gross_cost")
+
+gross_cost.addEventListener("focus",clacGrossCost)
+
+// Calculate Packaging Charges in Value from Percentage
+
+
+let packInPercentage = document.getElementById("pack_percentage")
+
+packInPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseInt(document.getElementById("gross_cost").value)
+  let packInPercentageInt = parseInt(document.getElementById("pack_percentage").value)
+  let packChargevalue = (gross_cost * packInPercentageInt) /100
+  document.getElementById("pack_value").value = packChargevalue
+})
+
+// Calculate Overhead Charges in Value from Percentage
+
+
+let overheadPercentage = document.getElementById("overhead_percentage")
+
+overheadPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseInt(document.getElementById("gross_cost").value)
+  let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
+  let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
+  document.getElementById("overhead_value").value = overheadChargevalue
+})
+
+// Calculate Handling Charges in Value from Percentage
+
+
+let handlingPercentage = document.getElementById("overhead_percentage")
+
+overheadPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseInt(document.getElementById("gross_cost").value)
+  let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
+  let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
+  document.getElementById("overhead_value").value = overheadChargevalue
+})
