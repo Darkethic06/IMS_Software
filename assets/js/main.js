@@ -102,11 +102,11 @@ overheadPercentage.addEventListener('keyup',()=>{
 // Calculate Handling Charges in Value from Percentage
 
 
-let handlingPercentage = document.getElementById("overhead_percentage")
+// let handlingPercentage = document.getElementById("overhead_percentage")
 
-overheadPercentage.addEventListener('keyup',()=>{
-  let gross_cost = parseInt(document.getElementById("gross_cost").value)
-  let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
-  let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
-  document.getElementById("overhead_value").value = overheadChargevalue
-})
+// overheadPercentage.addEventListener('keyup',()=>{
+//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
+//   let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
+//   let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
+//   document.getElementById("overhead_value").value = overheadChargevalue
+// })

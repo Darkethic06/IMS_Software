@@ -200,7 +200,7 @@ include('config/config.php');
                 <td colspan="2"><input type="text" class="form-control"></td>
             </tr>
         </table>
-        <button type="button" class="btn btn-primary">Save Costing</button>
+        <button type="button" class="btn btn-primary" id="save_costing">Save Costing</button>
 </div>
 
 
