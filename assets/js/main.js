@@ -57,6 +57,10 @@ selectLeatherBtn.addEventListener('click', function () {
 })
 
 
+
+
+
+
 // Calculate gross Cost
 
 function clacGrossCost(){

@@ -60,6 +60,55 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
         </div>
     </div>
 
+
+    <!-- -----------------------------------------Select Item Modal----------------------------------------------- -->
+
+
+    <div class="modal fade" id="selectItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select Leather</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <select class="form-select" id="select_leather_no">
+                            <option value="Select Leather" disabled selected>Select Item</option>
+                            <?php
+                            $item_fetch_query = "SELECT * FROM `items_db`;";
+                            $item_fetch_result = mysqli_query($connect, $item_fetch_query);
+                            while ($row =  mysqli_fetch_array($item_fetch_result)) {
+                            ?>
+                                <option value="<?php
+                                                echo $row['Item_No']
+                                                ?>" class="form-control"><?php
+                                                                            echo $row['Item_Name']
+                                                                                . "(" .
+                                                                                $row['Item_No']
+                                                                                . ")" ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="selectItem" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- ---------------------------------------------Select Item Modal -------------------------------------------- -->
+
+
     <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">
         Create Costing
@@ -79,7 +128,7 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
         </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectLeatherModal"> + Add Leather</button>
 
-        <table class="table table-bordered m-3" id="leatherTable" width="100%" cellspacing="0">
+        <table class="table table-bordered my-3" id="leatherTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>Leather Code</th>
@@ -103,17 +152,26 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
         </table>
         <div style="overflow-y: scroll; height:300px;" class="">
             <table class="table table-bordered my-5" id="leatherTable" width="100%" cellspacing="0">
+                <tr>
+                    <th>Item No</th>
+                    <th>Item Name</th>
+                    <th>HSN Code</th>
+                    <th>QTY</th>
+                    <th>UOM</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
                 <?php
                  for ($i = 1; $i <= 20; $i++) :
                 ?>
                     <tr>
-                        <td><input type='text' class='form-control' placeholder="Item No"></td>
+                        <td><input type='text' class='form-control' placeholder="Item No" data-bs-toggle="modal" data-bs-target="#selectItemModal"></td>
                         <td><input type='text' class='form-control' placeholder="Item Name"></td>
-                        <td><input type='text' class='form-control' placeholder=""></td>
-                        <td><input type='text' class='form-control' placeholder=""></td>
-                        <td><input type='text' class='form-control' placeholder=""></td>
-                        <td><input type='text' class='form-control' placeholder=""></td>
-                        <td><input type='text' class='form-control' placeholder=""></td>
+                        <td><input type='text' class='form-control' placeholder="HSN Code"></td>
+                        <td><input type='text' class='form-control' placeholder="QTY"></td>
+                        <td><input type='text' class='form-control' placeholder="UOM"></td>
+                        <td><input type='text' class='form-control' placeholder="Rate"></td>
+                        <td><input type='text' class='form-control' placeholder="Amount"></td>
                     </tr>
                 <?php
                  endfor;
