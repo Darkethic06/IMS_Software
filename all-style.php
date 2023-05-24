@@ -38,6 +38,7 @@ include('config/config.php');
               <th>Color</th>
               <th>Preview Image</th>
               <th colspan="3">Actions</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -64,6 +65,7 @@ include('config/config.php');
                   <button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button>
                 </form>
               </td>
+              <td><a href="<?php echo "create-costing.php?product_id=".$row['product_id'] ?>" name="costing_btn" class="btn btn-primary">Create Costing</a></td>
               </tr>
             <?php
             }

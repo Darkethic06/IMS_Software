@@ -27,10 +27,6 @@ linkColor.forEach(l => l.addEventListener('click', colorLink))
 
 
 
-function selectStyle() {
-  let getStyleNo = document.getElementById('style_no').value
-  document.getElementById("show_style_no").value = getStyleNo
-}
 
 let leather_part = document.getElementById("leather_part")
 

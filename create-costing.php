@@ -7,79 +7,60 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
 include('includes/header.php');
 include('includes/navbar.php');
 include('config/config.php');
+
+$id =  $_GET['product_id'];
+
+$fetch_style = "SELECT * FROM `init_style_db` WHERE `product_id` = '$id'";
+$Styleresult = mysqli_query($connect, $fetch_style);
+while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
+
 ?>
-<!-- =---------------------- -->
-<div class="modal fade" id="selectStyleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Select Style</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+ 
 
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Select Style</label>
-                    <Select class="form-select" id="style_no">
-                        <?php
-                        $product_fetch_query = "SELECT * FROM `init_style_db` ";
-                        $item_fetch_result = mysqli_query($connect, $product_fetch_query);
-                        while ($row =  mysqli_fetch_array($item_fetch_result)) {
-                        ?>
-                            <option value="<?php echo $row['style_no'] ?>"><?php echo $row['product_name'] . "(" . $row['style_no'] . ")" ?></option>
-                        <?php
-                        }
-                        ?>
-                    </Select>
+
+    <!-- ------------------------------------------------------------------------------ -->
+
+
+    <div class="modal fade" id="selectLeatherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select Leather</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button name="selectStyle" id="selectStyle" class="btn btn-primary" onclick="selectStyle()" data-bs-dismiss="modal">Save</button>
-            </div>
 
-        </div>
-    </div>
-</div>
+                <div class="modal-body">
 
-
-<!-- ------------------------------------------------------------------------------ -->
-
-
-<div class="modal fade" id="selectLeatherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Select Leather</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <div class="mb-3">
-                    <select class="form-select" id="select_leather_no">
-                        <option value="Select Leather" disabled selected>Select Leather</option>
-                        <?php
-                        $item_fetch_query = "SELECT * FROM `items_db` WHERE `item_type` = 'Leather';";
-                        $item_fetch_result = mysqli_query($connect, $item_fetch_query);
-                        while ($row =  mysqli_fetch_array($item_fetch_result)) {
-                        ?>
-                            <option value="<?php echo $row['Item_No'] ?>" class="form-control"><?php echo $row['Item_Name'] . "(" . $row['Item_No'] . ")" ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
+                    <div class="mb-3">
+                        <select class="form-select" id="select_leather_no">
+                            <option value="Select Leather" disabled selected>Select Leather</option>
+                            <?php
+                            $item_fetch_query = "SELECT * FROM `items_db` WHERE `item_type` = 'Leather';";
+                            $item_fetch_result = mysqli_query($connect, $item_fetch_query);
+                            while ($row =  mysqli_fetch_array($item_fetch_result)) {
+                            ?>
+                                <option value="<?php
+                                                echo $row['Item_No']
+                                                ?>" class="form-control"><?php
+                                                                            echo $row['Item_Name']
+                                                                                . "(" .
+                                                                                $row['Item_No']
+                                                                                . ")" ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="selectLeather" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="selectLeather" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="card-header py-3">
+    <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">
         Create Costing
     </h6>
@@ -87,13 +68,13 @@ include('config/config.php');
 
 
 
-<div class="container">
+     <div class="container">
     <h5 class="m-3">Add Details</h5>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="row ">
             <div class="mb-3 col-lg-4 col-md-4">
                 <label class="form-label">Style No</label>
-                <input type="text" id="show_style_no" name="style_no" class="form-control" placeholder="Style No" data-bs-toggle="modal" data-bs-target="#selectStyleModal">
+                <input type="text" id="show_style_no" name="style_no" class="form-control" placeholder="Style No" value="<?php echo $styleRow['style_no']; ?>">
             </div>
         </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectLeatherModal"> + Add Leather</button>
@@ -122,7 +103,9 @@ include('config/config.php');
         </table>
         <div style="overflow-y: scroll; height:300px;" class="">
             <table class="table table-bordered my-5" id="leatherTable" width="100%" cellspacing="0">
-                <?php for ($i = 1; $i <= 20; $i++) : ?>
+                <?php
+                 for ($i = 1; $i <= 20; $i++) :
+                ?>
                     <tr>
                         <td><input type='text' class='form-control' placeholder="Item No"></td>
                         <td><input type='text' class='form-control' placeholder="Item Name"></td>
@@ -132,7 +115,9 @@ include('config/config.php');
                         <td><input type='text' class='form-control' placeholder=""></td>
                         <td><input type='text' class='form-control' placeholder=""></td>
                     </tr>
-                <?php endfor; ?>
+                <?php
+                 endfor;
+                ?>
             </table>
         </div>
 
@@ -145,7 +130,7 @@ include('config/config.php');
             <tr>
                 <td>Labour Charges</td>
                 <td colspan="3"></td>
-                <td><input type="text" class="form-control" id="labour_charges"></td>
+                <td><input type="text" class="form-control" id="labour_charges" value="<?php echo $styleRow['labourCharges']; ?>"></td>
             </tr>
             <tr>
                 <td>Gross Cost</td>
@@ -205,9 +190,9 @@ include('config/config.php');
 
 
 
-<!-- -------------------------Calculate Leather Modal---------------------------- -->
+    <!-- -------------------------Calculate Leather Modal---------------------------- -->
 
-<div class="modal fade" id="selectLeatherCalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="selectLeatherCalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -248,12 +233,13 @@ include('config/config.php');
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
-<!-- //////////////////////////////////////////////Scrollable div here -->
+    <!-- //////////////////////////////////////////////Scrollable div here -->
 
 <?php
+}
 include('includes/footer.php');
 ?>

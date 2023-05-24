@@ -62,6 +62,13 @@ if (isset($_POST['createStyle'])) {
         'grip_handle_rate' => isCharged($_POST['grip_handle_rate']),
     );
     $rate_details = json_encode($rate_details_array);
+    $total_rate = 0;
+
+    foreach ($rate_details_array as $rate) {
+        $total_rate += $rate;
+    }
+
+    $labourCharges = $total_rate;
     $applicable_opt_array = array(
         'splitting_check' => isChecked('splitting_check'),
         'stiching_check' => isChecked('stiching_check'),
@@ -113,7 +120,7 @@ if (isset($_POST['createStyle'])) {
         $product_exists = true;
     } else {
         move_uploaded_file($tmp_imageName, 'product_images/' . $imageName);
-        $product_create_query = "INSERT INTO `init_style_db`(`product_name`, `style_no`, `preview_image`, `color`,`no_of_part`, `range_code`, `rate_details`, `applicable_operation`) VALUES ('$product_name','$style_no','$imageName','$color','$no_of_part','$range_code', '$rate_details','$applicable_opt')";
+        $product_create_query = "INSERT INTO `init_style_db`(`product_name`, `style_no`, `preview_image`, `color`,`no_of_part`, `range_code`, `rate_details`, `applicable_operation`, `labourCharges`) VALUES ('$product_name','$style_no','$imageName','$color','$no_of_part','$range_code', '$rate_details','$applicable_opt','$labourCharges')";
         mysqli_query($connect, $product_create_query);
     }
 }
@@ -133,7 +140,7 @@ if (isset($_POST['createStyle'])) {
         echo '<h6 class="text-danger text-center">Product already has been uploaded</h>';
     }
     ?>
-    <form action="<?php $_SERVER['PHP_SELF']?>" method="post" enctype="multipart/form-data">
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="mb-3 col-md-2">
                 <label class="form-label">Product Name</label>
@@ -155,13 +162,13 @@ if (isset($_POST['createStyle'])) {
                 <label class="form-label">No. of Part</label>
                 <input type="text" name="part" class="form-control" placeholder="No. of Part">
             </div>
-            
+
             <div class="mb-3 col-md-2 col-12">
                 <label class="form-label">Range Code</label>
                 <input type="text" name="range_code" class="form-control" placeholder="Range Code">
             </div>
         </div>
-        
+
         <!-- -------------------------------------End of Rate Details-------------- -->
         <h6 class="m-0 font-weight-bold text-primary">
             Applicable Machine Operation
@@ -529,6 +536,7 @@ if (isset($_POST['createStyle'])) {
                             <input type="text" name="back_part_rate" class="form-control" placeholder="0.0">
                         </td>
                     </tr>
+
                     <tr>
                         <td>Gusset Set Part Rate/Pcs</td>
                         <td><input type="text" name="gusset_set_rate" class="form-control" placeholder="0.0"></td>
@@ -541,10 +549,10 @@ if (isset($_POST['createStyle'])) {
             </div>
         </div>
 
-<div class="mb-5">
+        <div class="mb-5">
 
-    <button type="submit" name="createStyle" class="btn btn-primary">Save</button>
-</div>
+            <button type="submit" name="createStyle" class="btn btn-primary">Save</button>
+        </div>
     </form>
 </div>
 
