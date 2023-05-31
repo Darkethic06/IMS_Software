@@ -27,6 +27,7 @@ linkColor.forEach(l => l.addEventListener('click', colorLink))
 
 
 
+// -----------------Calculating leather part
 
 let leather_part = document.getElementById("leather_part")
 
@@ -56,48 +57,48 @@ selectLeatherBtn.addEventListener('click', function () {
   document.getElementById('leather_amount').value = final_leatherqty * rate
 })
 
-
+// -------------Selecting Items------------
 
 
 
 
 // Calculate gross Cost
 
-function clacGrossCost(){
-  let prime_cost = parseInt(document.getElementById("prime_cost").value) 
-  let labour_charges = parseInt(document.getElementById("labour_charges").value)
+// function clacGrossCost(){
+//   let prime_cost = parseInt(document.getElementById("prime_cost").value) 
+//   let labour_charges = parseInt(document.getElementById("labour_charges").value)
 
-  gross_cost.value = prime_cost + labour_charges
+//   gross_cost.value = prime_cost + labour_charges
 
 
-}
-let gross_cost = document.getElementById("gross_cost")
+// }
+// let gross_cost = document.getElementById("gross_cost")
 
-gross_cost.addEventListener("focus",clacGrossCost)
+// gross_cost.addEventListener("focus",clacGrossCost)
 
 // Calculate Packaging Charges in Value from Percentage
 
 
-let packInPercentage = document.getElementById("pack_percentage")
+// let packInPercentage = document.getElementById("pack_percentage")
 
-packInPercentage.addEventListener('keyup',()=>{
-  let gross_cost = parseInt(document.getElementById("gross_cost").value)
-  let packInPercentageInt = parseInt(document.getElementById("pack_percentage").value)
-  let packChargevalue = (gross_cost * packInPercentageInt) /100
-  document.getElementById("pack_value").value = packChargevalue
-})
+// packInPercentage.addEventListener('keyup',()=>{
+//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
+//   let packInPercentageInt = parseInt(document.getElementById("pack_percentage").value)
+//   let packChargevalue = (gross_cost * packInPercentageInt) /100
+//   document.getElementById("pack_value").value = packChargevalue
+// })
 
 // Calculate Overhead Charges in Value from Percentage
 
 
-let overheadPercentage = document.getElementById("overhead_percentage")
+// let overheadPercentage = document.getElementById("overhead_percentage")
 
-overheadPercentage.addEventListener('keyup',()=>{
-  let gross_cost = parseInt(document.getElementById("gross_cost").value)
-  let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
-  let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
-  document.getElementById("overhead_value").value = overheadChargevalue
-})
+// overheadPercentage.addEventListener('keyup',()=>{
+//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
+//   let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
+//   let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
+//   document.getElementById("overhead_value").value = overheadChargevalue
+// })
 
 // Calculate Handling Charges in Value from Percentage
 
@@ -110,3 +111,5 @@ overheadPercentage.addEventListener('keyup',()=>{
 //   let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
 //   document.getElementById("overhead_value").value = overheadChargevalue
 // })
+
+
