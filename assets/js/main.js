@@ -38,78 +38,163 @@ leather_part.addEventListener('keyup', function () {
   document.getElementById('leather_total').value = length * width * part
 })
 
-let leather_wastage = document.getElementById("leather_wastage")
+// let leather_wastage = document.getElementById("leather_wastage")
 
-leather_wastage.addEventListener('keyup', function () {
-  let total = document.getElementById('leather_total').value
-  total_wastage = (total * this.value) / 100
-  final_total = total - total_wastage
-  document.getElementById("final_leather").value = final_total
-})
+// leather_wastage.addEventListener('keyup', function () {
+//   let total = document.getElementById('leather_total').value
+//   total_wastage = (total * this.value) / 100
+//   final_total = total - total_wastage
+//   document.getElementById("final_leather").value = final_total
+// })
 
 
 let selectLeatherBtn = document.getElementById("selectLeatherBtn")
 
 selectLeatherBtn.addEventListener('click', function () {
-  let final_leatherqty = document.getElementById("final_leather").value
+  let final_leatherqty = document.getElementById("leather_total").value
   document.getElementById("leather_qty").value = final_leatherqty
   let rate = document.getElementById('leather_rate').value
-  document.getElementById('leather_amount').value = final_leatherqty * rate
+  let Amount = final_leatherqty * rate
+  document.getElementById('leather_amount').value = Amount.toFixed(2)
 })
 
-// -------------Selecting Items------------
+// -------------Calculating Items------------
+
+function calculateItem(itemQtyId) {
+  let itemLength = document.getElementById(`item_length${itemQtyId}`).value
+  let itemWidth = document.getElementById(`item_width${itemQtyId}`).value
+  let itemQty = document.getElementById(`item_qty${itemQtyId}`).value
+  document.getElementById(`item_total${itemQtyId}`).value = itemLength * itemWidth * itemQty
+}
+
+// function calculateWastage(itemWastageId) {
+//   let itemTotal = document.getElementById(`item_total${itemWastageId}`).value
+//   let wastagePercen = document.getElementById(`item_wastage${itemWastageId}`).value
+//   totalItemWastage = (itemTotal * wastagePercen) / 100
+//   final_total = itemTotal - totalItemWastage
+//   document.getElementById(`final_qty${itemWastageId}`).value = final_total
+// }
+
+
+function getItemQty(itemSectionId) {
+  let finalItemQty = document.getElementById(`item_total${itemSectionId}`).value
+  document.getElementById(`itemQty${itemSectionId}`).value = finalItemQty
+  let rate = document.getElementById(`itemRate${itemSectionId}`).value
+  let Amount = finalItemQty * rate
+  document.getElementById(`itemAmount${itemSectionId}`).value = Amount.toFixed(2)
+}
+
+
+// ----------------------------------------------------Calculating 20 Item Cost
+
+let primeCostCalcBtn = document.getElementById("primeCostCalcBtn")
+
+primeCostCalcBtn.addEventListener("click",(e)=>{
+  e.preventDefault();
+  let sum = 0;
+  for (let i = 1; i <= 20; i++) {
+    let itemAmount = parseFloat(document.getElementById(`itemAmount${i}`).value)
+    sum += itemAmount;
+  }
+  let leatherAmount = parseFloat(document.getElementById("leather_amount").value)
+
+  primeCost = sum + leatherAmount
+
+  document.getElementById("prime_cost").value = primeCost
+
+  let costSection = document.getElementById("costSection")
+
+  costSection.classList.remove("hide")
+
+})
+// function calcPrimeCost() {
+  
+// }
 
 
 
 
 // Calculate gross Cost
 
-// function clacGrossCost(){
-//   let prime_cost = parseInt(document.getElementById("prime_cost").value) 
-//   let labour_charges = parseInt(document.getElementById("labour_charges").value)
+function clacGrossCost() {
+  let prime_cost = parseFloat(document.getElementById("prime_cost").value)
+  let labour_charges = parseFloat(document.getElementById("labour_charges").value)
 
-//   gross_cost.value = prime_cost + labour_charges
+  gross_cost.value = prime_cost + labour_charges
 
 
-// }
-// let gross_cost = document.getElementById("gross_cost")
+}
 
-// gross_cost.addEventListener("focus",clacGrossCost)
 
 // Calculate Packaging Charges in Value from Percentage
 
 
-// let packInPercentage = document.getElementById("pack_percentage")
+let packInPercentage = document.getElementById("pack_percentage")
 
-// packInPercentage.addEventListener('keyup',()=>{
-//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
-//   let packInPercentageInt = parseInt(document.getElementById("pack_percentage").value)
-//   let packChargevalue = (gross_cost * packInPercentageInt) /100
-//   document.getElementById("pack_value").value = packChargevalue
-// })
+packInPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let packInPercentageValue = parseFloat(document.getElementById("pack_percentage").value)
+  let packChargevalue = (gross_cost * packInPercentageValue) /100
+  document.getElementById("pack_value").value = packChargevalue
+})
 
 // Calculate Overhead Charges in Value from Percentage
 
 
-// let overheadPercentage = document.getElementById("overhead_percentage")
+let overheadPercentage = document.getElementById("overhead_percentage")
 
-// overheadPercentage.addEventListener('keyup',()=>{
-//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
-//   let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
-//   let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
-//   document.getElementById("overhead_value").value = overheadChargevalue
-// })
+overheadPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let overheadPercentageInt = parseFloat(document.getElementById("overhead_percentage").value)
+  let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
+  document.getElementById("overhead_value").value = overheadChargevalue
+})
 
 // Calculate Handling Charges in Value from Percentage
 
 
-// let handlingPercentage = document.getElementById("overhead_percentage")
+let handlingPercentage = document.getElementById("handling_percentage")
 
-// overheadPercentage.addEventListener('keyup',()=>{
-//   let gross_cost = parseInt(document.getElementById("gross_cost").value)
-//   let overheadPercentageInt = parseInt(document.getElementById("overhead_percentage").value)
-//   let overheadChargevalue = (gross_cost * overheadPercentageInt) /100
-//   document.getElementById("overhead_value").value = overheadChargevalue
-// })
+handlingPercentage.addEventListener('keyup',()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let handlingInPercentage= parseFloat(document.getElementById("handling_percentage").value)
+  let handlingChargeValue = (gross_cost * handlingInPercentage) /100
+  document.getElementById("handling_value").value = handlingChargeValue
+})
 
 
+
+// Calculate Insurance Charges in Value from Percentage
+
+
+
+const calcInsurance = ()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let insureInPercentage= parseFloat(document.getElementById("insure_percentage").value)
+  let insureChargeValue = (gross_cost * insureInPercentage) /100
+  document.getElementById("insure_value").value = insureChargeValue
+}
+
+
+// Calculate Bank Charges in Value from Percentage
+
+
+
+const calcBank = ()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let bankInPercentage= parseFloat(document.getElementById("bank_percentage").value)
+  let bankChargeValue = (gross_cost * bankInPercentage) /100
+  document.getElementById("bank_value").value = bankChargeValue
+}
+
+
+// Calculate Bank Charges in Value from Percentage
+
+
+
+const calcFreight= ()=>{
+  let gross_cost = parseFloat(document.getElementById("gross_cost").value)
+  let bankInPercentage= parseFloat(document.getElementById("freight_percentage").value)
+  let bankChargeValue = (gross_cost * bankInPercentage) /100
+  document.getElementById("freight_value").value = bankChargeValue
+}

@@ -64,10 +64,7 @@ include('config/config.php');
                         <div class="nav__dropdown-collapse">
                             <div class="nav__dropdown-content">
                                 <a href="create-style.php" class="nav__dropdown-item">Add Style</a>
-                                <a href="create-costing.php" class="nav__dropdown-item">Add Costing Sheet</a>
                                 <a href="all-style.php" class="nav__dropdown-item">All Styles</a>
-                                <a href="all-costing.php" class="nav__dropdown-item">All Costings</a>
-                                
                             </div>
                         </div>
                     </div>
