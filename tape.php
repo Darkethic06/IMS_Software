@@ -74,7 +74,7 @@ if (isset($_POST['createItem'])) {
                         </div>
                         <div class="mb-3 col-md-3 col-12">
                             <label class="form-label">UOM*</label>
-                            <input type="text" name="uom" class="form-control" value="YARD" readonly>
+                            <input type="text" name="uom" class="form-control" value="Ft" readonly>
                         </div>
                         <div class="mb-3 col-md-5 col-12">
                             <label class="form-label">Rate*</label>

@@ -14,14 +14,14 @@ if (isset($_POST['createBuyer'])) {
 
 
 
-  $check_buyer = "SELECT * FROM `buyer` WHERE `buyer_code` = '$code'";
+  $check_buyer = "SELECT * FROM `buyer_db` WHERE `buyer_code` = '$code'";
   $check_buyer_result = mysqli_query($connect, $check_buyer);
 
   $buyerExistRows = mysqli_num_rows($check_buyer_result);
   if ($buyerExistRows > 0) {
     $buyer_exists = true;
   } else {
-    $buyer_create_query = "INSERT INTO `buyer`(`buyer_code`,`name`) VALUES ('$code','$name')";
+    $buyer_create_query = "INSERT INTO `buyer_db` (`buyer_code`,`name`) VALUES ('$code','$name')";
     mysqli_query($connect, $buyer_create_query);
   }
 }
@@ -88,7 +88,7 @@ if (isset($_POST['createBuyer'])) {
           </thead>
           <tbody>
             <?php
-            $buyer_fetch_query = "SELECT * FROM `buyer`";
+            $buyer_fetch_query = "SELECT * FROM `buyer_db`";
             $buyer_fetch_result = mysqli_query($connect, $buyer_fetch_query);
 
 

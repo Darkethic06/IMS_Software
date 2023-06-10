@@ -43,7 +43,8 @@ include('config/config.php');
                             <div class="nav__dropdown-content">
                                 <a href="leather.php" class="nav__dropdown-item">Leather</a>
                                 <a href="linning.php" class="nav__dropdown-item">Linning</a>
-                                <a href="puller.php" class="nav__dropdown-item">Puller & Zipper</a>
+                                <a href="puller.php" class="nav__dropdown-item">Puller</a>
+                                <a href="puller.php" class="nav__dropdown-item">Zipper</a>
                                 <a href="backing.php" class="nav__dropdown-item">Backing</a>
                                 <a href="adhesive.php" class="nav__dropdown-item">Adhesive</a>
                                 <a href="tape.php" class="nav__dropdown-item">Weaving Tape</a>
@@ -78,8 +79,8 @@ include('config/config.php');
 
                         <div class="nav__dropdown-collapse">
                             <div class="nav__dropdown-content">
-                                <a href="create-style.php" class="nav__dropdown-item">Add Product Order </a>
-                                <a href="#" class="nav__dropdown-item">View Product Order</a>
+                                <a href="buyers-order.php" class="nav__dropdown-item">Add Buyers Order </a>
+                                <a href="#" class="nav__dropdown-item">View Buyers Order</a>
                                 
                             </div>
                         </div>
