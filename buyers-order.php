@@ -53,7 +53,55 @@ include('config/config.php');
 
 <!-- ---------------------------------------------Select Buyer Modal End -------------------------------------------- -->
 
+<!-- ---------------------------------------------Select Style Modal Start -------------------------------------------- -->
 
+<?php
+    for ($j = 1; $j <= 20; $j++) :
+    ?>
+        <div class="modal fade" id="selectStyleModal<?php echo $j; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Select Style</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <select class="form-select" id="selectedStyle<?php echo $j; ?>">
+                                <option value="NA" disabled selected>Select Item</option>
+                                <?php
+                                $item_fetch_query = "SELECT * FROM `costing_db` ;";
+                                $item_fetch_result = mysqli_query($connect, $item_fetch_query);
+                                while ($row =  mysqli_fetch_array($item_fetch_result)) {
+                                ?>
+                                    <option value="<?php
+                                                    echo $row['style_no']
+                                                    ?>" class="form-control"><?php
+                                                                                echo $row['product_name']
+                                                                                    . "(" .
+                                                                                    $row['style_no']
+                                                                                    . ")" ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" data-bs-dismiss="modal" onclick="selectStyle(<?php echo $j; ?>)">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <?php
+    endfor;
+    ?>
+
+<!-- ---------------------------------------------Select Style Modal End -------------------------------------------- -->
 
 
 <div class="card-header py-3">
@@ -69,10 +117,10 @@ include('config/config.php');
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectBuyerModal"> + Select Buyer</button>
         <div class="row my-5">
             <div class="mb-3 col-lg-6 col-md-6">
-                <input type="text" class="form-control" placeholder="Buyer Name">
+                <input type="text" class="form-control" placeholder="Buyer Name" id="showBuyerName">
             </div>
             <div class="mb-3 col-lg-6 col-md-6">
-                <input type="text" class="form-control" placeholder="Buyer Code">
+                <input type="text" class="form-control" placeholder="Buyer Code" id="showBuyerCode">
             </div>
         </div>
 
@@ -89,12 +137,13 @@ include('config/config.php');
                 for ($i = 1; $i <= 20; $i++) :
                 ?>
                     <tr>
-                        <td><input type='text' class='form-control' placeholder="Item No" data-bs-toggle="modal" data-bs-target="#selectItemModal<?php echo $i; ?>" id="itemNo<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="Item Name" id="itemName<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>" data-bs-toggle='modal' data-bs-target='#selectItemCalc<?php echo $i; ?>'></td>
-                        <td><input type='text' class='form-control' placeholder="UOM" id="itemUom<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="Rate" id="itemRate<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="Amount" id="itemAmount<?php echo $i; ?>" value="0"></td>
+                        <td><input type='text' class='form-control' placeholder="Style No" data-bs-toggle="modal"
+                         data-bs-target="#selectStyleModal<?php echo $i; ?>" id="styleNo<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Style Name" id="styleName<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="QTY" id="styleQty<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="UOM" id="styleUom<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Rate" id="styleRate<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Amount" id="styleAmount<?php echo $i; ?>" value="0"></td>
                     </tr>
                 <?php
                 endfor;
@@ -103,88 +152,10 @@ include('config/config.php');
         </div>
 
         <div class="d-flex justify-content-end">
-            <button class="my-3 btn btn-primary" id="primeCostCalcBtn">Calcutate Prime Cost</button>
+            <button class="my-3 btn btn-primary" id="calcOrderBtn">Submit</button>
         </div>
-        <table class="table table-bordered my-5 hide" width="100%" cellspacing="0" id="costSection">
-            <tr>
-                <td>Prime Cost</td>
-                <td colspan="3"></td>
-                <td><input type="text" class="form-control" id="prime_cost" value="0"></td>
-            </tr>
-            <tr>
-                <td>Labour Charges</td>
-                <td colspan="3"></td>
-                <td><input type="text" class="form-control" id="labour_charges" value="<?php echo $styleRow['labourCharges']; ?>"></td>
-            </tr>
-            <tr>
-                <td>Packaging Charges</td>
-                <td colspan="3"></td>
-                <td><input type="text" class="form-control" id="pack_charges" value="0"></td>
-            </tr>
-            <tr>
-                <td>Gross Cost</td>
-                <td colspan="2"></td>
-                <td> <button class="btn btn-primary" id="grossCostBtn">Calculate Gross Cost</button> </td>
-                <td><input type="text" class="form-control" id="gross_cost" value="0"></td>
-            </tr>
-
-            <tr>
-                <td>Overhead Cost(in %)</td>
-                <td><input type="text" class="form-control" id="overhead_percentage"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="overhead_value" value="0"></td>
-            </tr>
-            <tr>
-                <td>Handling Charges(in %)</label></td>
-                <td><input type="text" class="form-control" id="handling_percentage"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="handling_value" value="0"></td>
-            </tr>
-            <tr>
-                <td>Insurance Charges(in %)</td>
-                <td><input type="text" class="form-control" id="insure_percentage" onkeyup="calcInsurance()"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="insure_value" value="0"></td>
-            </tr>
-            <tr>
-                <td>Bank & Misc. Charges(in %)</td>
-                <td><input type="text" class="form-control" id="bank_percentage" onkeyup="calcBank()"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="bank_value" value="0"></td>
-            </tr>
-            <tr>
-                <td>Freight Amount(in %)</td>
-                <td><input type="text" class="form-control" id="freight_percentage" onkeyup="calcFreight()"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="freight_value" value="0"></td>
-            </tr>
-            <tr>
-                <td>Add Profit(in %)</td>
-                <td><input type="text" class="form-control" id="profit_percentage" onkeyup="clacProfit()"></td>
-                <td colspan="2">in Value</td>
-                <td><input type="text" class="form-control" id="profit_value" value="0"></td>
-            </tr>
-            <tr>
-                <td colspan="1"><strong>Net Cost</strong></td>
-                <td><button class="btn btn-primary" id="calcTotalCostBtn">Calculate Net Cost</button></td>
-                <td colspan="2"><strong>Total</strong></td>
-                <td colspan="2"><input type="text" class="form-control" id="netCost" value="0"></td>
-            </tr>
-            <tr>
-                <td colspan="1"><strong>Price in Conv. Rate</strong></td>
-                <td><select class="form-select" id="convCur" onchange="selectConvCur()">
-                        <option value="NA" disabled selected>Select Currency</option>
-                        <option value="USD">USD</option>
-                        <option value="AUD">AUD</option>
-                        <option value="EURO">EURO</option>
-                        <option value="SEK">SEK</option>
-                    </select></td>
-                <td><input type="text" class="form-control" value="0" id="convRate"></td>
-                <td><button class="btn btn-primary" id="convBtn">Calculate Conv.</button> <span id="slectedConvCur"></span> </td>
-                <td><input type="text" class="form-control" id="convPrice"></td>
-            </tr>
-        </table>
-        <button type="button" class="btn btn-primary my-5" id="save_costing">Save Costing</button>
+        
+        <button type="button" class="btn btn-primary my-5" id="saveBuyerOrder">Save Costing</button>
 </div>
 
 
