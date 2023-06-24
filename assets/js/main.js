@@ -232,7 +232,7 @@ calcTotalCostBtn.addEventListener("click", (e) => {
 
   if (gross_cost == 0 || gross_cost == "") {
     alert("Please Calculate the Gross Cost")
-  }else{
+  } else {
     let net_cost = gross_cost + overhead_cost + handling_cost + insure_cost + bank_cost + freight_cost + profit
     document.getElementById("netCost").value = net_cost.toFixed(2)
   }
@@ -246,12 +246,12 @@ calcTotalCostBtn.addEventListener("click", (e) => {
 
 
 
-function selectConvCur(){
-  let convCur = document.getElementById("convCur").value 
+function selectConvCur() {
+  let convCur = document.getElementById("convCur").value
   document.getElementById("slectedConvCur").innerHTML = convCur
 
 }
- 
+
 // slectedConvCur
 
 
@@ -267,8 +267,21 @@ convBtn.addEventListener("click", (e) => {
     alert("Please Calculate the Total Costing")
   } else {
     let conv_Price = totalPrice / convRate
-
     document.getElementById("convPrice").value = conv_Price.toFixed(2)
-
   }
 })
+
+// logical modal length and width showing
+
+function modalToggle(index){
+  let uom = document.getElementById(`itemUom${index}`).value
+
+  if(uom=="Ft" || uom == "PCS" ){
+    $("#selectItemCalcP"+index).modal("show")
+  }else{
+    $("#selectItemCalc"+index).modal("show")
+  }
+
+}
+
+

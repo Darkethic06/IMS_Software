@@ -8,6 +8,29 @@ include('includes/header.php');
 include('includes/navbar.php');
 include('config/config.php');
 
+
+
+if (isset($_POST['saveCosting'])) {
+
+    $leatherNo="";
+    $leatherName = "";
+    $leatherQty="";
+    $leatherUom="";
+    $leatherRate="";
+    $leatherAmount="";
+    $primeCost ="";
+    $labouCharge="";
+    $packCharge= "";
+    $grossCost = "";
+    $overheadCost = "";
+    $handlingCharges = "";
+    $insureCharge = "";
+    
+
+}
+
+
+
 $id =  $_GET['product_id'];
 
 $fetch_style = "SELECT * FROM `init_style_db` WHERE `product_id` = '$id'";
@@ -147,12 +170,12 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                     </tr>
                 </thead>
                 <tr>
-                    <td><input type='text' class='form-control' placeholder='Leather No' id="leather_no"></td>
-                    <td><input type='text' class='form-control' placeholder='Leather Name' id="leather_name"></td>
-                    <td><input type='text' class='form-control' id='leather_qty' placeholder='QTY' data-bs-toggle='modal' data-bs-target='#selectLeatherCalc'></td>
-                    <td><input type='text' class='form-control' placeholder="UOM" id="leather_uom"></td>
-                    <td><input type='text' class='form-control' placeholder="Rate" id='leather_rate'></td>
-                    <td><input type='text' class='form-control' placeholder='Amount' id='leather_amount' value="0"></td>
+                    <td><input type='text' class='form-control' placeholder='Leather No' id="leather_no" name="leatherNo"></td>
+                    <td><input type='text' class='form-control' placeholder='Leather Name' id="leather_name" name="leatherName"></td>
+                    <td><input type='text' class='form-control' id='leather_qty' placeholder='QTY' data-bs-toggle='modal' data-bs-target='#selectLeatherCalc' name="leatherQty"></td>
+                    <td><input type='text' class='form-control' placeholder="UOM" id="leather_uom" name="leatherUOM"></td>
+                    <td><input type='text' class='form-control' placeholder="Rate" id='leather_rate' name="leatherRate"></td>
+                    <td><input type='text' class='form-control' placeholder='Amount' id='leather_amount' value="0" name="leatherAmount"></td>
                 </tr>
             </table>
             <div style="overflow-y: scroll; height:300px;" class="">
@@ -171,9 +194,8 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                         <tr>
                             <td><input type='text' class='form-control' placeholder="Item No" data-bs-toggle="modal" data-bs-target="#selectItemModal<?php echo $i; ?>" id="itemNo<?php echo $i; ?>"></td>
                             <td><input type='text' class='form-control' placeholder="Item Name" id="itemName<?php echo $i; ?>"></td>
-                            <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>" data-bs-toggle='modal' data-bs-target='#selectItemCalc<?php echo $i; ?>'></td>
-
-                            <!-- <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>" data-bs-toggle='modal'></td> -->
+                            <!-- <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>" data-bs-toggle='modal' data-bs-target='#selectItemCalc<?php echo $i; ?>' onclick="modalTo(<?php echo $i; ?>)"></td> -->
+                            <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>"  onclick="modalToggle(<?php echo $i; ?>)"></td>
                             <td><input type='text' class='form-control' placeholder="UOM" id="itemUom<?php echo $i; ?>"></td>
                             <td><input type='text' class='form-control' placeholder="Rate" id="itemRate<?php echo $i; ?>"></td>
                             <td><input type='text' class='form-control' placeholder="Amount" id="itemAmount<?php echo $i; ?>" value="0"></td>
@@ -266,7 +288,8 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                     <td><input type="text" class="form-control" id="convPrice"></td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-primary my-5" id="save_costing">Save Costing</button>
+            <button type="button" class="btn btn-primary my-5" id="save_costing" name="saveCosting">Save Costing</button>
+        </form>
     </div>
 
 
@@ -343,8 +366,8 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                                 <th>Total</th>
                             </tr>
                             <tr>
-                                <td> <input type="text" class="form-control" id="item_length<?php echo $k; ?>" value="1"></td>
-                                <td> <input type="text" class="form-control" id="item_width<?php echo $k; ?>" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_length<?php echo $k; ?> showTd" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_width<?php echo $k; ?> showTd" value="1"></td>
                                 <td> <input type="text" class="form-control" id="item_qty<?php echo $k; ?>" onkeyup="calculateItem(<?php echo $k; ?>)" value="1"></td>
                                 <td> <input type="text" class="form-control" id="item_total<?php echo $k; ?>" value="1"></td>
                             </tr>
@@ -362,7 +385,42 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
     endfor;
     ?>
 
+<?php
+    for ($l = 1; $l <= 20; $l++) :
+    ?>
+        <div class="modal fade" id="selectItemCalcP<?php echo $l; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Select Quantity</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <tr>
+                                
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                            <tr>
+                                <input type="hidden" class="form-control" id="item_length<?php echo $k; ?> showTd" value="1" >
+                                <input type="hidden" class="form-control" id="item_width<?php echo $k; ?> showTd" value="1">
+                                <td> <input type="text" class="form-control" id="item_qty<?php echo $k; ?>" onkeyup="calculateItem(<?php echo $k; ?>)" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_total<?php echo $k; ?>" value="1"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="calcItemBtn" class="btn btn-primary" data-bs-dismiss="modal" onclick="getItemQty(<?php echo $l; ?>)">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    <?php
+    endfor;
+    ?>
     <!-- //////////////////////////////////////////////Scrollable div here ------------------------------>
 
 <?php
