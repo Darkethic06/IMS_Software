@@ -12,21 +12,62 @@ include('config/config.php');
 
 if (isset($_POST['saveCosting'])) {
 
-    $leatherNo="";
-    $leatherName = "";
-    $leatherQty="";
-    $leatherUom="";
-    $leatherRate="";
-    $leatherAmount="";
-    $primeCost ="";
-    $labouCharge="";
-    $packCharge= "";
-    $grossCost = "";
-    $overheadCost = "";
-    $handlingCharges = "";
-    $insureCharge = "";
+    $styleNo = mysqli_real_escape_string($connect,$_POST["style_no"]);
+    $noOfPart = $_POST['totalPart'];
+    $leatherNo = mysqli_real_escape_string($connect,$_POST['leatherNo']);
+    $leatherName = mysqli_real_escape_string($connect,$_POST['leatherName']);
+    $leatherQty = mysqli_real_escape_string($connect,$_POST['leatherQty']);
+    $leatherUom = mysqli_real_escape_string($connect,$_POST["leatherUOM"]);
+    $leatherRate = mysqli_real_escape_string($connect,$_POST["leatherRate"]);
+    $leatherAmount = mysqli_real_escape_string($connect,$_POST["leatherAmount"]);
+    $primeCost = mysqli_real_escape_string($connect,$_POST["primeCost"]);
+    $labourCharge = mysqli_real_escape_string($connect,$_POST["labourCharges"]);
+    $packCharge = mysqli_real_escape_string($connect,$_POST["packageCharges"]);
+    $grossCost = mysqli_real_escape_string($connect,$_POST["grosscost"]);
+    $overheadCost = mysqli_real_escape_string($connect,$_POST["overheadCost"]);
+    $handlingCharges = mysqli_real_escape_string($connect,$_POST["handlingCharge"]);
+    $insureCharge = mysqli_real_escape_string($connect,$_POST["insuranceCharge"]);
+    $bankCharge = mysqli_real_escape_string($connect,$_POST["bankCharge"]);
+    $freightAmount = mysqli_real_escape_string($connect,$_POST['freightAmount']);
+    $profit = mysqli_real_escape_string($connect,$_POST["profit"]);
+    $netCost = mysqli_real_escape_string($connect,$_POST["netCost"]);
+    $convCurrency = mysqli_real_escape_string($connect,$_POST["convCur"]);
+    $convRate = mysqli_real_escape_string($connect,$_POST['convRate']);
+    $convertedPrice = mysqli_real_escape_string($connect,$_POST["convPrice"]);
+    $overPer = mysqli_real_escape_string($connect,$_POST["overPer"]);
+    $handlingPer = mysqli_real_escape_string($connect,$_POST["handlingPer"]);
+    $insurePer = mysqli_real_escape_string($connect,$_POST["insurePer"]);
+    $bankPer = mysqli_real_escape_string($connect,$_POST["bankPer"]);
+    $freightPer = mysqli_real_escape_string($connect,$_POST["freightPer"]);
+    $profitPer = mysqli_real_escape_string($connect,$_POST["profitPer"]);
     
+    $itemsArray = array();
 
+    for ($i = 1; $i <= 20; $i++) {
+        $itemNo = mysqli_real_escape_string($connect,$_POST["itemNo$i"]);
+        $itemName = htmlspecialchars($_POST["itemName$i"]);
+        $qty = mysqli_real_escape_string($connect,$_POST["qty$i"]);
+        $uom = mysqli_real_escape_string($connect,$_POST["uom$i"]);
+        $rate = mysqli_real_escape_string($connect,$_POST["rate$i"]);
+        $amount = htmlspecialchars($_POST["amount$i"]);
+
+        $item = array(
+            'itemNo' => $itemNo,
+            'itemName' => $itemName,
+            'qty' => $qty,
+            'uom' => $uom,
+            'rate' => $rate,
+            'amount' => $amount
+        );
+
+        $items["item$i"] = $item;
+    }
+
+
+    $itemJson = json_encode($items);
+
+    $costingQuery = "INSERT INTO `costing_db`(`style_no`,`noOfPart`, `leatherNo`, `leatherName`, `leatherQty`, `leatherUom`, `leatherRate`, `leatherAmount`, `primeCost`, `labourCharges`, `packCharges`, `grossCost`, `overCost`, `handlingCharges`, `insureCharge`, `bankCharge`, `frieghtAmount`, `profit`, `netCost`, `convCurency`, `convRate`, `convPrice`, `overPer`, `handlingPer`, `insurePer`, `bankPer`, `freightPer`, `profitPer`, `item_Details`, `created_at`) VALUES ('$styleNo','$noOfPart','$leatherNo','$leatherName','$leatherQty','$leatherUom','$leatherRate','$leatherAmount','$primeCost','$labourCharge','$packCharge','$grossCost','$overheadCost','$handlingCharges','$insureCharge','$bankCharge','$freightAmount','$profit','$netCost','$convCurrency','$convRate','$convertedPrice','$overPer','$handlingPer','$insurePer','$bankPer','$freightPer','$profitPer','$itemJson',NOW())";
+    mysqli_query($connect, $costingQuery);
 }
 
 
@@ -41,7 +82,7 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
 
 
 
-    <!-- ------------------------------------------------------------------------------ -->
+    <!-- ---------------------------------Select Leather Modal Start--------------------------------------------- -->
 
 
     <div class="modal fade" id="selectLeatherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,9 +123,10 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
             </div>
         </div>
     </div>
+    <!-- ---------------------------------Select Leather Modal End--------------------------------------------- -->
 
 
-    <!-- -----------------------------------------Select Item Modal----------------------------------------------- -->
+    <!-- -----------------------------------------Select Item Modal Start----------------------------------------------- -->
 
     <?php
     for ($j = 1; $j <= 20; $j++) :
@@ -133,7 +175,7 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
     ?>
 
 
-    <!-- ---------------------------------------------Select Item Modal -------------------------------------------- -->
+    <!-- ---------------------------------------------Select Item Modal End-------------------------------------------- -->
 
 
 
@@ -149,11 +191,16 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
 
 
     <div class="container">
+        <!-- <form action=""  method="POST"> -->
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row ">
                 <div class="mb-3 col-lg-4 col-md-4">
                     <label class="form-label">Style No</label>
-                    <input type="text" id="show_style_no" name="style_no" class="form-control" placeholder="Style No" value="<?php echo $styleRow['style_no']; ?>">
+                    <input type="text" id="show_style_no" name="style_no" class="form-control" placeholder="Style No" value="<?php echo $styleRow['style_no']; ?>" readonly>
+                </div>
+                <div class="mb-3 col-4">
+                    <label class="form-label">No. of Part</label>
+                    <input type="text" id="total_part" name="totalPart" class="form-control" value="<?php echo $styleRow['no_of_part']; ?>" readonly>
                 </div>
             </div>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectLeatherModal"> + Add Leather</button>
@@ -192,13 +239,12 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                     for ($i = 1; $i <= 20; $i++) :
                     ?>
                         <tr>
-                            <td><input type='text' class='form-control' placeholder="Item No" data-bs-toggle="modal" data-bs-target="#selectItemModal<?php echo $i; ?>" id="itemNo<?php echo $i; ?>"></td>
-                            <td><input type='text' class='form-control' placeholder="Item Name" id="itemName<?php echo $i; ?>"></td>
-                            <!-- <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>" data-bs-toggle='modal' data-bs-target='#selectItemCalc<?php echo $i; ?>' onclick="modalTo(<?php echo $i; ?>)"></td> -->
-                            <td><input type='text' class='form-control' placeholder="QTY" id="itemQty<?php echo $i; ?>"  onclick="modalToggle(<?php echo $i; ?>)"></td>
-                            <td><input type='text' class='form-control' placeholder="UOM" id="itemUom<?php echo $i; ?>"></td>
-                            <td><input type='text' class='form-control' placeholder="Rate" id="itemRate<?php echo $i; ?>"></td>
-                            <td><input type='text' class='form-control' placeholder="Amount" id="itemAmount<?php echo $i; ?>" value="0"></td>
+                            <td><input type='text' class='form-control' placeholder="Item No" name="itemNo<?php echo $i; ?>" data-bs-toggle="modal" data-bs-target="#selectItemModal<?php echo $i; ?>" id="itemNo<?php echo $i; ?>"></td>
+                            <td><input type='text' class='form-control' name="itemName<?php echo $i; ?>" placeholder="Item Name" id="itemName<?php echo $i; ?>"></td>
+                            <td><input type='text' class='form-control' name="qty<?php echo $i; ?>" placeholder="QTY" id="itemQty<?php echo $i; ?>" onclick="modalToggle(<?php echo $i; ?>)"></td>
+                            <td><input type='text' class='form-control' name="uom<?php echo $i; ?>" placeholder="UOM" id="itemUom<?php echo $i; ?>"></td>
+                            <td><input type='text' class='form-control' name="rate<?php echo $i; ?>" placeholder="Rate" id="itemRate<?php echo $i; ?>"></td>
+                            <td><input type='text' class='form-control' name="amount<?php echo $i; ?>" placeholder="Amount" id="itemAmount<?php echo $i; ?>" value="0"></td>
                         </tr>
                     <?php
                     endfor;
@@ -213,82 +259,82 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                 <tr>
                     <td>Prime Cost</td>
                     <td colspan="3"></td>
-                    <td><input type="text" class="form-control" id="prime_cost" value="0"></td>
+                    <td><input type="text" class="form-control" id="prime_cost" name="primeCost" value="0"></td>
                 </tr>
                 <tr>
                     <td>Labour Charges</td>
                     <td colspan="3"></td>
-                    <td><input type="text" class="form-control" id="labour_charges" value="<?php echo $styleRow['labourCharges']; ?>"></td>
+                    <td><input type="text" class="form-control" id="labour_charges" name="labourCharges" value="<?php echo $styleRow['labourCharges']; ?>"></td>
                 </tr>
                 <tr>
                     <td>Packaging Charges</td>
                     <td colspan="3"></td>
-                    <td><input type="text" class="form-control" id="pack_charges" value="0"></td>
+                    <td><input type="text" class="form-control" id="pack_charges" name="packageCharges" value="0"></td>
                 </tr>
                 <tr>
                     <td>Gross Cost</td>
                     <td colspan="2"></td>
                     <td> <button class="btn btn-primary" id="grossCostBtn">Calculate Gross Cost</button> </td>
-                    <td><input type="text" class="form-control" id="gross_cost" value="0"></td>
+                    <td><input type="text" class="form-control" id="gross_cost" name="grosscost" value="0"></td>
                 </tr>
 
                 <tr>
                     <td>Overhead Cost(in %)</td>
-                    <td><input type="text" class="form-control" id="overhead_percentage"></td>
+                    <td><input type="text" class="form-control" id="overhead_percentage" name="overPer" value="0"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="overhead_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="overhead_value" name="overheadCost" value="0"></td>
                 </tr>
                 <tr>
                     <td>Handling Charges(in %)</label></td>
-                    <td><input type="text" class="form-control" id="handling_percentage"></td>
+                    <td><input type="text" class="form-control" id="handling_percentage" name="handlingPer" value="0"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="handling_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="handling_value" name="handlingCharge" value="0"></td>
                 </tr>
                 <tr>
                     <td>Insurance Charges(in %)</td>
-                    <td><input type="text" class="form-control" id="insure_percentage" onkeyup="calcInsurance()"></td>
+                    <td><input type="text" class="form-control" id="insure_percentage" name="insurePer" value="0" onkeyup="calcInsurance()"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="insure_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="insure_value" name="insuranceCharge" value="0"></td>
                 </tr>
                 <tr>
                     <td>Bank & Misc. Charges(in %)</td>
-                    <td><input type="text" class="form-control" id="bank_percentage" onkeyup="calcBank()"></td>
+                    <td><input type="text" class="form-control" id="bank_percentage" name="bankPer" value="0" onkeyup="calcBank()"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="bank_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="bank_value" name="bankCharge" value="0"></td>
                 </tr>
                 <tr>
                     <td>Freight Amount(in %)</td>
-                    <td><input type="text" class="form-control" id="freight_percentage" onkeyup="calcFreight()"></td>
+                    <td><input type="text" class="form-control" id="freight_percentage" name="freightPer" value="0" onkeyup="calcFreight()"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="freight_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="freight_value" name="freightAmount" value="0"></td>
                 </tr>
                 <tr>
                     <td>Add Profit(in %)</td>
-                    <td><input type="text" class="form-control" id="profit_percentage" onkeyup="clacProfit()"></td>
+                    <td><input type="text" class="form-control" id="profit_percentage" name="profitPer" value="0" onkeyup="clacProfit()"></td>
                     <td colspan="2">in Value</td>
-                    <td><input type="text" class="form-control" id="profit_value" value="0"></td>
+                    <td><input type="text" class="form-control" id="profit_value" name="profit" value="0"></td>
                 </tr>
                 <tr>
                     <td colspan="1"><strong>Net Cost</strong></td>
                     <td><button class="btn btn-primary" id="calcTotalCostBtn">Calculate Net Cost</button></td>
                     <td colspan="2"><strong>Total</strong></td>
-                    <td colspan="2"><input type="text" class="form-control" id="netCost" value="0"></td>
+                    <td colspan="2"><input type="text" class="form-control" id="netCost" name="netCost" value="0"></td>
                 </tr>
                 <tr>
                     <td colspan="1"><strong>Price in Conv. Rate</strong></td>
-                    <td><select class="form-select" id="convCur" onchange="selectConvCur()">
+                    <td><select class="form-select" id="convCur" name="convCur" onchange="selectConvCur()">
                             <option value="NA" disabled selected>Select Currency</option>
                             <option value="USD">USD</option>
                             <option value="AUD">AUD</option>
                             <option value="EURO">EURO</option>
                             <option value="SEK">SEK</option>
                         </select></td>
-                    <td><input type="text" class="form-control" value="0" id="convRate"></td>
-                    <td><button class="btn btn-primary" id="convBtn">Calculate Conv.</button> <span id="slectedConvCur"></span> </td>
-                    <td><input type="text" class="form-control" id="convPrice"></td>
+                    <td><input type="text" class="form-control" value="0" id="convRate" name="convRate"></td>
+                    <td><button class="btn btn-primary" id="convBtn">Calculate Conv.</button> <span id="slectedConvCur" name=""></span> </td>
+                    <td><input type="text" class="form-control" id="convPrice" name="convPrice"></td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-primary my-5" id="save_costing" name="saveCosting">Save Costing</button>
+            <button type="submit" class="btn btn-primary my-5" id="save_costing" name="saveCosting">Save Costing</button>
         </form>
     </div>
 
@@ -366,8 +412,8 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                                 <th>Total</th>
                             </tr>
                             <tr>
-                                <td> <input type="text" class="form-control" id="item_length<?php echo $k; ?> showTd" value="1"></td>
-                                <td> <input type="text" class="form-control" id="item_width<?php echo $k; ?> showTd" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_length<?php echo $k; ?>" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_width<?php echo $k; ?>" value="1"></td>
                                 <td> <input type="text" class="form-control" id="item_qty<?php echo $k; ?>" onkeyup="calculateItem(<?php echo $k; ?>)" value="1"></td>
                                 <td> <input type="text" class="form-control" id="item_total<?php echo $k; ?>" value="1"></td>
                             </tr>
@@ -385,7 +431,7 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
     endfor;
     ?>
 
-<?php
+    <?php
     for ($l = 1; $l <= 20; $l++) :
     ?>
         <div class="modal fade" id="selectItemCalcP<?php echo $l; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -398,21 +444,20 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
                     <div class="modal-body">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <tr>
-                                
+
                                 <th>Qty</th>
                                 <th>Total</th>
                             </tr>
                             <tr>
-                                <input type="hidden" class="form-control" id="item_length<?php echo $k; ?> showTd" value="1" >
-                                <input type="hidden" class="form-control" id="item_width<?php echo $k; ?> showTd" value="1">
-                                <td> <input type="text" class="form-control" id="item_qty<?php echo $k; ?>" onkeyup="calculateItem(<?php echo $k; ?>)" value="1"></td>
-                                <td> <input type="text" class="form-control" id="item_total<?php echo $k; ?>" value="1"></td>
+                                
+                                <td> <input type="text" class="form-control" id="item_qtyp<?php echo $l; ?>" onkeyup="calculateItemP(<?php echo $l; ?>)" value="1"></td>
+                                <td> <input type="text" class="form-control" id="item_totalp<?php echo $l; ?>" value="1"></td>
                             </tr>
                         </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="calcItemBtn" class="btn btn-primary" data-bs-dismiss="modal" onclick="getItemQty(<?php echo $l; ?>)">Select</button>
+                        <button type="button" id="calcItemBtnP" class="btn btn-primary" data-bs-dismiss="modal" onclick="getItemQtyP(<?php echo $l; ?>)">Select</button>
                     </div>
                 </div>
             </div>

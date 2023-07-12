@@ -62,17 +62,18 @@ selectLeatherBtn.addEventListener('click', function () {
 // -------------Calculating Items------------
 
 function calculateItem(itemQtyId) {
-  // console.log("hello")
-  // if (itemQtyId == null || itemQtyId == "") {
-  //   console.log("hello")
-  // }
   let itemLength = document.getElementById(`item_length${itemQtyId}`).value
   let itemWidth = document.getElementById(`item_width${itemQtyId}`).value
   let itemQty = document.getElementById(`item_qty${itemQtyId}`).value
-  let totalQTY = itemLength * itemWidth * itemQty
+  let totalQTY = (itemLength * itemWidth) * itemQty
   document.getElementById(`item_total${itemQtyId}`).value = totalQTY.toFixed(4)
+  // console.log(itemQty)
 }
-
+function calculateItemP(itemQtyId) {
+  let itemQtyp = document.getElementById(`item_qtyp${itemQtyId}`).value
+  document.getElementById(`item_totalp${itemQtyId}`).value = itemQtyp
+  // console.log(itemQtyp)
+}
 // function calculateWastage(itemWastageId) {
 //   let itemTotal = document.getElementById(`item_total${itemWastageId}`).value
 //   let wastagePercen = document.getElementById(`item_wastage${itemWastageId}`).value
@@ -90,6 +91,16 @@ function getItemQty(itemSectionId) {
   document.getElementById(`itemAmount${itemSectionId}`).value = Amount.toFixed(2)
 }
 
+
+
+function getItemQtyP(itemSectionId) {
+  let finalItemQtyp = document.getElementById(`item_totalp${itemSectionId}`).value
+  console.log(finalItemQtyp)
+  document.getElementById(`itemQty${itemSectionId}`).value = finalItemQtyp
+  let ratep = document.getElementById(`itemRate${itemSectionId}`).value
+  let Amountp = finalItemQtyp * ratep
+  document.getElementById(`itemAmount${itemSectionId}`).value = Amountp.toFixed(2)
+}
 
 // ----------------------------------------------------Calculating 20 Item Cost
 
@@ -140,7 +151,7 @@ grossCostBtn.addEventListener("click", (e) => {
     if (pack_charges == 0 || pack_charges == "") {
       alert("Please Enter Packaging Charges")
     } else {
-      gross_cost.value = prime_cost + labour_charges + pack_charges
+      gross_cost.value = (prime_cost + labour_charges + pack_charges).toFixed(2)
     }
   }
 
@@ -273,13 +284,13 @@ convBtn.addEventListener("click", (e) => {
 
 // logical modal length and width showing
 
-function modalToggle(index){
+function modalToggle(index) {
   let uom = document.getElementById(`itemUom${index}`).value
 
-  if(uom=="Ft" || uom == "PCS" ){
-    $("#selectItemCalcP"+index).modal("show")
-  }else{
-    $("#selectItemCalc"+index).modal("show")
+  if (uom == "Ft" || uom == "PCS") {
+    $("#selectItemCalcP" + index).modal("show")
+  } else {
+    $("#selectItemCalc" + index).modal("show")
   }
 
 }

@@ -22,39 +22,39 @@ if (isset($_POST['createStyle'])) {
     $rate_details_array = array(
         'cutting_rate' => isCharged($_POST['cutting_rate']),
         'skiving_rate' => isCharged($_POST['skiving_rate']),
-        'splitting_rate' => isCharged($_POST['splitting_rate']),
         'clicking_rate' => isCharged($_POST['clicking_rate']),
+        'splitting_rate' => isCharged($_POST['splitting_rate']),
         'embossing_rate' => isCharged($_POST['embossing_rate']),
-        'lining_cut_rate' => isCharged($_POST['lining_cut_rate']),
-        'stiching_rate' => isCharged($_POST['stiching_rate']),
-        'finishing_rate' => isCharged($_POST['finishing_rate']),
+        'lining_cutting_rate' => isCharged($_POST['lining_cut_rate']),
         'strap_making_rate' => isCharged($_POST['strap_making_rate']),
-        'riving_rate' => isCharged($_POST['riving_rate']),
+        'riving_rate_&_eyelating_rate' => isCharged($_POST['riving_rate']),
         'embroidery_rate' => isCharged($_POST['embroidery_rate']),
         'adhesive_rate' => isCharged($_POST['adhesive_rate']),
-        'reinforce_rate' => isCharged($_POST['reinforce_rate']),
+        'finishing_rate' => isCharged($_POST['finishing_rate']),
+        'stiching_rate' => isCharged($_POST['stiching_rate']),
+        'drying_rate' => isCharged($_POST['drying_rate']),
+        'reinforce_cutting_rate' => isCharged($_POST['reinforce_rate']),
         'design_rate' => isCharged($_POST['design_rate']),
         'cleaning_rate' => isCharged($_POST['cleaning_rate']),
         'stuffing_rate' => isCharged($_POST['stuffing_rate']),
         'fabrication_rate_internal' => isCharged($_POST['fabrication_rate_internal']),
         'fabrication_rate_external' => isCharged($_POST['fabrication_rate_external']),
-        'canvas_rate' => isCharged($_POST['canvas_rate']),
+        'canvas_cutting_rate' => isCharged($_POST['canvas_rate']),
         'laser_cutting_rate' => isCharged($_POST['laser_cutting_rate']),
         'printing_rate' => isCharged($_POST['printing_rate']),
         'lining_make_rate' => isCharged($_POST['lining_make_rate']),
         'fitting_lasting_rate' => isCharged($_POST['fitting_lasting_rate']),
         'pasting_rate' => isCharged($_POST['pasting_rate']),
         'spray_finish_rate' => isCharged($_POST['spray_finish_rate']),
-        'gulchi_rate' => isCharged($_POST['gulchi_rate']),
+        'gulchi_khurpa_rate' => isCharged($_POST['gulchi_rate']),
         'edge_inking_rate' => isCharged($_POST['edge_inking_rate']),
         'washing_rate' => isCharged($_POST['washing_rate']),
-        'assemble_rate' => isCharged($_POST['assemble_rate']),
-        'tap_making_rate' => isCharged($_POST['tap_making_rate']),
-        'flap_set_internal' => isCharged($_POST['flap_set_internal']),
+        'assembling_rate' => isCharged($_POST['assemble_rate']),
+        'tag_making_rate' => isCharged($_POST['tag_making_rate']),
+        'flap_set_rate' => isCharged($_POST['flap_set_rate']),
         'front_lining_rate' => isCharged($_POST['front_lining_rate']),
         'back_lining_rate' => isCharged($_POST['back_lining_rate']),
         'final_cutting_rate' => isCharged($_POST['final_cutting_rate']),
-        'drying_rate' => isCharged($_POST['drying_rate']),
         'roto_rate' => isCharged($_POST['roto_rate']),
         'front_part_rate' => isCharged($_POST['front_part_rate']),
         'back_part_rate' => isCharged($_POST['back_part_rate']),
@@ -77,7 +77,6 @@ if (isset($_POST['createStyle'])) {
         'reinforce_check' => isChecked('reinforce_check'),
         'printing_check' => isChecked('printing_check'),
         'edgeInking_check' => isChecked('edgeInking_check'),
-        'guesset_check' => isChecked('guesset_check'),
         'flap_set_check' => isChecked('flap_set_check'),
         'canvas_check' => isChecked('canvas_check'),
         'clicking_check' => isChecked('clicking_check'),
@@ -87,7 +86,6 @@ if (isset($_POST['createStyle'])) {
         'cleaning_check' => isChecked('cleaning_check'),
         'lining_making_check' => isChecked('lining_making_check'),
         'roto_check' => isChecked('roto_check'),
-        'grip_handle' => isChecked('grip_handle'),
         'front_lining_check' => isChecked('front_lining_check'),
         'embossing_check' => isChecked('embossing_check'),
         'design_check' => isChecked('design_check'),
@@ -103,10 +101,12 @@ if (isset($_POST['createStyle'])) {
         'wasing_check' => isChecked('wasing_check'),
         'adhesive_check' => isChecked('adhesive_check'),
         'laserCut_check' => isChecked('laserCut_check'),
-        'ggulchi_check' => isChecked('gulchi_check'),
+        'gulchi_check' => isChecked('gulchi_check'),
         'back_part_check' => isChecked('back_part_check'),
         'tag_baking_check' => isChecked('tag_baking_check'),
-        'final_cut_check' => isChecked('final_cut_check')
+        'final_cut_check' => isChecked('final_cut_check'),
+        'guesset_check' => isChecked('guesset_check'),
+        'grip_handle' => isChecked('grip_handle')
 
     );
     $applicable_opt = json_encode($applicable_opt_array);
@@ -420,6 +420,9 @@ if (isset($_POST['createStyle'])) {
 
                 </table>
             </div>
+            <?php 
+            
+            ?>
             <!-- ////////////////////////////////////////////////Second Part the Row//////////////////////// -->
             <div class="col-md-4 col-12">
                 <table class="table table-bordered">
@@ -500,11 +503,11 @@ if (isset($_POST['createStyle'])) {
                     </tr>
                     <tr>
                         <td>Tag Making Rate/Pcs</td>
-                        <td><input type="text" name="tap_making_rate" class="form-control" placeholder="0.0"></td>
+                        <td><input type="text" name="tag_making_rate" class="form-control" placeholder="0.0"></td>
                     </tr>
                     <tr>
                         <td>Flap Set Rate/Pcs</td>
-                        <td><input type="text" name="flap_set_internal" class="form-control" placeholder="0.0"></td>
+                        <td><input type="text" name="flap_set_rate" class="form-control" placeholder="0.0"></td>
                     </tr>
                     <tr>
                         <td>Front Lining Rate/Pcs</td>
