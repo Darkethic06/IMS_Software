@@ -80,7 +80,8 @@ include('config/config.php');
 
                         <div class="nav__dropdown-collapse">
                             <div class="nav__dropdown-content">
-                                <a href="buyers-order.php" class="nav__dropdown-item">Add Buyers Order </a>
+                                <a href="create-bo.php" class="nav__dropdown-item">Create Buyers Order </a>
+                                <a href="create-po.php" class="nav__dropdown-item">Create Purchase Order </a>
                                 <a href="#" class="nav__dropdown-item">View Buyers Order</a>
                                 
                             </div>

@@ -79,7 +79,7 @@ include('config/config.php');
                                     <option value="<?php
                                                     echo $row['style_no']
                                                     ?>" class="form-control"><?php
-                                                                                echo $row['product_name']
+                                                                                echo $row['productName']
                                                                                     . "(" .
                                                                                     $row['style_no']
                                                                                     . ")" ?></option>
@@ -91,7 +91,7 @@ include('config/config.php');
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" data-bs-dismiss="modal" onclick="selectStyle(<?php echo $j; ?>)">Select</button>
+                        <button class="btn btn-primary" data-bs-dismiss="modal" onclick="selectProduct(<?php echo $j; ?>)">Select</button>
                     </div>
                 </div>
             </div>
@@ -155,7 +155,7 @@ include('config/config.php');
             <button class="my-3 btn btn-primary" id="calcOrderBtn">Submit</button>
         </div>
         
-        <button type="button" class="btn btn-primary my-5" id="saveBuyerOrder">Save Costing</button>
+        <button type="button" class="btn btn-primary my-5" id="saveBuyerOrder">Create Order</button>
 </div>
 
 

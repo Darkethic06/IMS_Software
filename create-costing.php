@@ -194,6 +194,10 @@ while ($styleRow =  mysqli_fetch_assoc($Styleresult)) {
         <!-- <form action=""  method="POST"> -->
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row ">
+            <div class="mb-3 col-4">
+                    <label class="form-label">Product Name</label>
+                    <input type="text"  name="productName" class="form-control" value="<?php echo $styleRow['product_name']; ?>" readonly>
+                </div>
                 <div class="mb-3 col-lg-4 col-md-4">
                     <label class="form-label">Style No</label>
                     <input type="text" id="show_style_no" name="style_no" class="form-control" placeholder="Style No" value="<?php echo $styleRow['style_no']; ?>" readonly>
