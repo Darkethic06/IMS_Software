@@ -82,7 +82,7 @@ include('config/config.php');
                             <div class="nav__dropdown-content">
                                 <a href="create-bo.php" class="nav__dropdown-item">Create Buyers Order </a>
                                 <a href="create-po.php" class="nav__dropdown-item">Create Purchase Order </a>
-                                <a href="#" class="nav__dropdown-item">View Buyers Order</a>
+                                <a href="all-buyers-order.php" class="nav__dropdown-item">View Buyers Order</a>
                                 
                             </div>
                         </div>

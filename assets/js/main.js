@@ -296,3 +296,19 @@ function modalToggle(index) {
 }
 
 
+// --------------------------------Buyers Order
+
+function calcBoAmount(id) {
+  let styleQtyBo = document.getElementById(`styleQtyBo${id}`).value
+  let priceBO = document.getElementById(`stylePriceBO${id}`).value
+  let amountBO = styleQtyBo * priceBO
+  document.getElementById(`styleAmountBo${id}`).value = amountBO.toFixed(2)
+}
+
+let createBoOrder = document.getElementById("createBoOrder")
+
+
+
+// BoOrderCalcBtn
+// 
+

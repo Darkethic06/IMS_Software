@@ -59,7 +59,7 @@ $("#selectBuyerBtn").on("click", function () {
 });
 
 
-function selectStyle(sectionId) {
+function selectProductBo(sectionId) {
     let selectedStyle = $(`#selectedStyle${sectionId}`).val()
     $.ajax({
         type: "POST",
@@ -69,10 +69,13 @@ function selectStyle(sectionId) {
         url: "ajax/fetch_style.php",
         success: function (data) {
             let jsonData = JSON.parse(data)
-            $(`#styleNo${sectionId}`).val(jsonData.Item_No);
-            $(`#styleName${sectionId}`).val(jsonData.Item_Name);
-            $(`#styleUom${sectionId}`).val(jsonData.UOM);
-            $(`#styleRate${sectionId}`).val(jsonData.Rate);
+            $(`#styleNo${sectionId}`).val(jsonData.style_no);
+            $(`#styleName${sectionId}`).val(jsonData.productName);
+            $(`#stylePriceBO${sectionId}`).val(jsonData.netCost);
+
+            console.log(jsonData)
         }
     });
 }
+
+
