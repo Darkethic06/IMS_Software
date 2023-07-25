@@ -71,9 +71,11 @@ function selectProductBo(sectionId) {
             let jsonData = JSON.parse(data)
             $(`#styleNo${sectionId}`).val(jsonData.style_no);
             $(`#styleName${sectionId}`).val(jsonData.productName);
+            $(`#noOfPartsBO${sectionId}`).val(jsonData.noOfPart);
             $(`#stylePriceBO${sectionId}`).val(jsonData.netCost);
+            
 
-            console.log(jsonData)
+            console.log(jsonData.noOfPart)
         }
     });
 }

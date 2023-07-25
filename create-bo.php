@@ -9,6 +9,42 @@ include('includes/navbar.php');
 include('config/config.php');
 include('functions.php');
 
+if (isset($_POST['createBoOrder'])) {
+
+    $orderNumber = $_POST['orderNo'];
+    $buyerName = $_POST['buyerName'];
+    $buyerCode = $_POST['buyerCode'];
+    $styleArray = array();
+
+    for ($i = 1; $i <= 20; $i++) {
+        $styleNo = mysqli_real_escape_string($connect, $_POST["styleNo$i"]);
+        $styleName = htmlspecialchars($_POST["styleName$i"]);
+        $noOfParts = htmlspecialchars($_POST["noOfParts$i"]);
+        $styleQty = mysqli_real_escape_string($connect, $_POST["totalQty$i"]);
+        $uom = mysqli_real_escape_string($connect, $_POST["uom$i"]);
+        $netCost = mysqli_real_escape_string($connect, $_POST["netCost$i"]);
+        $totalAmount = htmlspecialchars($_POST["totalAmount$i"]);
+
+        $product = array(
+            'styleNo' => $styleNo,
+            'styleName' => $styleName,
+            'totalPart' => $noOfParts * $styleQty,
+            'qty' => $styleQty,
+            'uom' => $uom,
+            'netCost' => $netCost,
+            'amount' => $totalAmount
+        );
+
+        $products["product$i"] = $product;
+    }
+
+    $productJson = json_encode($products);
+
+
+    $poQuery = "";
+
+    mysqli_query($connect, $poQuery);
+}
 
 ?>
 
@@ -118,13 +154,13 @@ endfor;
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectBuyerModal"> + Select Buyer</button>
         <div class="row my-5">
             <div class="mb-3 col-4">
-                <input type="text" class="form-control" placeholder="Buyer Name" id="showBuyerName">
+                <input type="text" class="form-control" placeholder="Buyer Name" id="showBuyerName" name="buyerName">
             </div>
             <div class="mb-3 col-4">
-                <input type="text" class="form-control" placeholder="Buyer Code" id="showBuyerCode">
+                <input type="text" class="form-control" placeholder="Buyer Code" id="showBuyerCode" name="buyerCode">
             </div>
             <div class="mb-3 col-4">
-                <input type="text" class="form-control" readonly value="<?php echo createBoOrderNo();  ?>">
+                <input type="text" class="form-control" readonly value="<?php echo createBoOrderNo();  ?>" name="orderNo">
             </div>
         </div>
 
@@ -133,6 +169,7 @@ endfor;
                 <tr>
                     <th>Style No</th>
                     <th>Style Name</th>
+                    <th>No. of Parts</th>
                     <th>QTY</th>
                     <th>UOM</th>
                     <th>Price</th>
@@ -142,12 +179,13 @@ endfor;
                 for ($i = 1; $i <= 20; $i++) :
                 ?>
                     <tr>
-                        <td><input type='text' class='form-control' placeholder="Style No" data-bs-toggle="modal" data-bs-target="#selectStyleModal<?php echo $i; ?>" id="styleNo<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="Style Name" id="styleName<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="QTY" id="styleQtyBo<?php echo $i; ?>" onkeyup="calcBoAmount(<?php echo $i; ?>)"></td>
-                        <td><input type='text' class='form-control' placeholder="UOM" id="styleUom<?php echo $i; ?>" value="PCS" readonly></td>
-                        <td><input type='text' class='form-control' placeholder="Rate" id="stylePriceBO<?php echo $i; ?>"></td>
-                        <td><input type='text' class='form-control' placeholder="Amount" id="styleAmountBo<?php echo $i; ?>" value="0"></td>
+                        <td><input type='text' class='form-control' placeholder="Style No" data-bs-toggle="modal" data-bs-target="#selectStyleModal<?php echo $i; ?>" id="styleNo<?php echo $i; ?>" name="styleNo<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Style Name" id="styleName<?php echo $i; ?>" name="styleName<?php echo $i; ?>"></td>
+                        <td><input type="text" readonly class="form-control" id="noOfPartsBO<?php echo $i; ?>" placeholder="No. of Parts" name="noOfParts<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="QTY" id="styleQtyBo<?php echo $i; ?>" onkeyup="calcBoAmount(<?php echo $i; ?>)" name="totalQty<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="UOM" id="styleUom<?php echo $i; ?>" value="PCS" readonly name="uom<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Rate" id="stylePriceBO<?php echo $i; ?>" name="netCost<?php echo $i; ?>"></td>
+                        <td><input type='text' class='form-control' placeholder="Amount" id="styleAmountBo<?php echo $i; ?>" value="0" name="totalAmount<?php echo $i; ?>"></td>
                     </tr>
                 <?php
                 endfor;
@@ -155,7 +193,7 @@ endfor;
             </table>
         </div>
 
-        <button type="submit" class="btn btn-primary my-5" id="createBoOrder">Create Order</button>
+        <button type="submit" class="btn btn-primary my-5" name="createBoOrder">Create Order</button>
     </form>
 </div>
 
@@ -163,6 +201,5 @@ endfor;
 
 
 <?php
-
 include('includes/footer.php');
 ?>
